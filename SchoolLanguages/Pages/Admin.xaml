@@ -1,0 +1,48 @@
+﻿<Page x:Class="SchoolLanguages.Pages.Admin"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SchoolLanguages.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="650"
+      Title="Admin">
+
+    <Grid>
+        <ScrollViewer>
+            <StackPanel>
+                <DataGrid Name="DGServises" AutoGenerateColumns="False" HorizontalAlignment="Center" IsReadOnly="False" CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal"  Initialized="StackPanel_Initialized">
+                                        <MediaElement Width="50" Height="50" Initialized="MediaElement_Initialized"/>
+                                        <StackPanel Name="Content" Orientation="Vertical">
+                                        <StackPanel>
+                                            <TextBlock Initialized="TextBlock_Initialized"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Initialized="TextBlock_Initialized_1"/>
+                                            <TextBlock Initialized="TextBlock_Initialized_2"/>
+                                            <TextBlock Text="рублей" />
+                                             <TextBlock Initialized="TextBlock_Initialized_4"/>
+                                            </StackPanel>
+                                            <TextBlock Initialized="TextBlock_Initialized_3"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Content="Редактировать" Initialized="Button_Initialized" Click="Button_Click"/>
+                                            <Button Content="Удалить" Initialized="Button_Initialized_1" Click="Button_Click_1"/>
+                                            <Button Content="Новый заказ" Initialized="Button_Initialized_2" Click="Button_Click_2"/>
+                                        </StackPanel>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
+</Page>
