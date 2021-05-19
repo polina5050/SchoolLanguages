@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SchoolLanguages"
         mc:Ignorable="d"
-        Title="SchoolLanguages" Height="600" Width="650">
+        Title="SchoolLanguages" Height="750" Width="1000" FontFamily="Comic Sans MS"
+        Icon="/Resrs/school_logo1.ico">
     <Grid>
         <Frame Name="frm">
             

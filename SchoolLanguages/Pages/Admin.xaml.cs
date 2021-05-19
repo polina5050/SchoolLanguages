@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,8 @@ namespace SchoolLanguages.Pages
         {
             InitializeComponent();
             DGServises.ItemsSource = ServisList;
+            //TableR.ItemsSource = Classes.BD.EM.Service.ToList();
+            
         }
 
         int i = -1;
@@ -37,7 +40,6 @@ namespace SchoolLanguages.Pages
                 Service S = ServisList[i];
                 Uri U = new Uri(S.MainImagePath, UriKind.RelativeOrAbsolute);
                 ME.Source = U;
-                //   i++;
             }
 
         }
@@ -130,9 +132,44 @@ namespace SchoolLanguages.Pages
         {
             Button BtnRed = (Button)sender;
             int ind = Convert.ToInt32(BtnRed.Uid);
-            Service S = ServisList[ind];
-            MessageBox.Show(S.Title);
-
+            Service RD = ServisList[ind];
+            NewID.Text = Convert.ToString((ind + 1));
+            Service SZn = ServisList[ind];
+            NewNaz.Text = SZn.Title;
+            NewPrice.Text = Convert.ToString(SZn.Cost);
+            NewTime.Text = Convert.ToString(SZn.DurationInSeconds/60);
+            NewOpis.Text = Convert.ToString(SZn.Description);
+            NewSale.Text = Convert.ToString(SZn.Discount*100);
+            NewPath.Text = SZn.MainImagePath;
+            DGServises.Visibility = Visibility.Collapsed;
+            Redact.Visibility = Visibility.Visible;
+            //BtnYsl.Visibility = Visibility.Collapsed;
+        }
+        private void SaveRed_Click(object sender, RoutedEventArgs e)//сохранение изменений
+        {
+            Button BtnRed = (Button)sender;
+            if (BtnRed != null)
+            {
+                BtnRed.Uid = Convert.ToString(i);
+            }
+            int ind = Convert.ToInt32(BtnRed.Uid);
+            Service R = ServisList[ind];
+            List<Service> Ser = Classes.BD.EM.Service.Where(r => r.ID == ind).ToList();
+            for (int i = 1; i < Ser.Count; i++)
+            {
+                int znac = Convert.ToInt32(Ser[i].DurationInSeconds);
+                if (znac < 240)
+                {
+                    Classes.BD.EM.SaveChanges();
+                    MessageBox.Show("Изменено");
+                    Global.MF.Navigate(new Pages.Admin());
+                }
+                else
+                {
+                    MessageBox.Show("Недопустимое значение!");
+                }
+            }
+           
         }
 
         private void Button_Initialized_1(object sender, EventArgs e)//удаление
@@ -150,6 +187,10 @@ namespace SchoolLanguages.Pages
             Button BtnDel = (Button)sender;
             int ind = Convert.ToInt32(BtnDel.Uid);
             Service S = ServisList[ind];
+            Classes.BD.EM.Service.Remove(S);
+            Classes.BD.EM.SaveChanges();
+            MessageBox.Show("Удалено");
+            Global.MF.Navigate(new Pages.Admin());
 
         }
 
@@ -176,15 +217,28 @@ namespace SchoolLanguages.Pages
             {
                 TextBlock time = (TextBlock)sender;
                 Service T = ServisList[i];
-                if (T.Discount != 0)
-                {
-                    time.Text = " за " + Convert.ToInt32(T.DurationInSeconds / 60) + " минут";
+                time.Text = "за " + Convert.ToInt32(T.DurationInSeconds / 60) + " минут";
 
-                }
             }
         }
 
+        private void BtnYsl_Click(object sender, RoutedEventArgs e)//новая запись
+        {
+            Button BtnEsl = (Button)sender;
+            BtnEsl.Visibility = Visibility.Collapsed;
+            DGServises.Visibility = Visibility.Collapsed;
+            NewYsl.Visibility = Visibility.Visible;
+           
+        }
 
+        private void Home_Click(object sender, RoutedEventArgs e)
+        {
+            DGServises.Visibility = Visibility.Visible;
+            Redact.Visibility = Visibility.Collapsed;
+            
+        }
+
+        
     }
 }
 

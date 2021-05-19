@@ -5,19 +5,19 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SchoolLanguages.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="650"
+      d:DesignHeight="750" d:DesignWidth="1000"
       Title="Admin">
 
     <Grid>
         <ScrollViewer>
-            <StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <DataGrid Name="DGServises" AutoGenerateColumns="False" HorizontalAlignment="Center" IsReadOnly="False" CanUserAddRows="False">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal"  Initialized="StackPanel_Initialized">
-                                        <MediaElement Width="50" Height="50" Initialized="MediaElement_Initialized"/>
+                                        <MediaElement Width="70" Height="70" Initialized="MediaElement_Initialized"/>
                                         <StackPanel Name="Content" Orientation="Vertical">
                                         <StackPanel>
                                             <TextBlock Initialized="TextBlock_Initialized"/>
@@ -30,7 +30,7 @@
                                             <TextBlock Initialized="TextBlock_Initialized_3"/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Content="Редактировать" Initialized="Button_Initialized" Click="Button_Click"/>
+                                            <Button Content="Редактировать" Initialized="Button_Initialized" Name="BtnRedact" Click="Button_Click"/>
                                             <Button Content="Удалить" Initialized="Button_Initialized_1" Click="Button_Click_1"/>
                                             <Button Content="Новый заказ" Initialized="Button_Initialized_2" Click="Button_Click_2"/>
                                         </StackPanel>
@@ -41,8 +41,36 @@
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
+                <Button VerticalAlignment="Top" Height="50" Name="BtnYsl" Content="Новая услуга "   Click="BtnYsl_Click"></Button>
             </StackPanel>
         </ScrollViewer>
-
+        <StackPanel Name="Redact" Visibility="Collapsed">
+            <Button Name="Home" Click="Home_Click" Content="назад"></Button>
+            <TextBlock>ID</TextBlock>
+            <TextBlock Name="NewID"></TextBlock>
+            <TextBlock>Название</TextBlock>
+            <TextBox Name="NewNaz"></TextBox>
+            <TextBlock>Цена</TextBlock>
+            <TextBox Name="NewPrice"></TextBox>
+            <TextBlock>Время</TextBlock>
+            <TextBox Name="NewTime"></TextBox>
+            <TextBlock>Описание</TextBlock>
+            <TextBox Name="NewOpis"></TextBox>
+            <TextBlock>Скидка</TextBlock>
+            <TextBox Name="NewSale"></TextBox>
+            <TextBlock>Путь</TextBlock>
+            <TextBox Name="NewPath"></TextBox>
+            <Button Name="SaveRed" Click="SaveRed_Click" Content="Сохранить"></Button>
+        </StackPanel>
+        <StackPanel Name="NewYsl" Visibility="Collapsed">
+            <Button Content="назад"></Button>
+            <TextBlock Name="ID"></TextBlock>
+            <TextBox Name="Naz"></TextBox>
+            <TextBox Name="Price"></TextBox>
+            <TextBox Name="Time"></TextBox>
+            <TextBox Name="Opis"></TextBox>
+            <TextBox Name="Sale"></TextBox>
+            <TextBox Name="Path"></TextBox>
+        </StackPanel>
     </Grid>
 </Page>
