@@ -152,10 +152,9 @@ namespace SchoolLanguages.Pages
         private void SaveRed_Click(object sender, RoutedEventArgs e)//сохранение изменений
         {
            Service R = ServisList[ind];
-            //List<Service> Ser = Classes.BD.EM.Service.Where(r => r.ID == ind).ToList();
             R.Title = RedNaz.Text;
             R.Cost = Convert.ToDecimal(RedPrice.Text);
-            R.DurationInSeconds = Convert.ToInt32(RedTime.Text) *60;
+            R.DurationInSeconds = Convert.ToInt32(RedTime.Text)*60;
             R.Description = RedOpis.Text;
             R.Discount = Convert.ToInt32(RedSale.Text);
             R.MainImagePath = RedPath.Text;
@@ -177,15 +176,15 @@ namespace SchoolLanguages.Pages
         private void Button_Click_1(object sender, RoutedEventArgs e)//удаление
         {
             Button BtnDel = (Button)sender;
-            int ind = Convert.ToInt32(BtnDel.Uid);
-            Service S = ServisList[ind];
+            int index = Convert.ToInt32(BtnDel.Uid);
+            Service S = ServisList[index];
             Classes.BD.EM.Service.Remove(S);
             Classes.BD.EM.SaveChanges();
             MessageBox.Show("Удалено");
             Global.MF.Navigate(new Pages.Admin());
 
         }
-
+        
         private void Button_Initialized_2(object sender, EventArgs e)//новый заказ
         {
             Button BtnNew = (Button)sender;
@@ -198,10 +197,11 @@ namespace SchoolLanguages.Pages
         private void Button_Click_2(object sender, RoutedEventArgs e)//новый заказ
         {
             Button BtnNew = (Button)sender;
-            int ind = Convert.ToInt32(BtnNew.Uid);
-            Service S = ServisList[ind];
-            
-
+            int index = Convert.ToInt32(BtnNew.Uid);
+            Service S = ServisList[index];
+            BtnYsl.Visibility = Visibility.Collapsed;
+            DGServises.Visibility = Visibility.Collapsed;
+            NewZap.Visibility = Visibility.Visible;
         }
         private void IBtn_Click(object sender, RoutedEventArgs e)//кнопка для поиска изображения
         {
@@ -210,20 +210,37 @@ namespace SchoolLanguages.Pages
             string PathI = OFD.FileName;
             IPath.Text = PathI;
         }
+        
         private void SaveNew_Click(object sender, RoutedEventArgs e)
         {
-            Service ObjectServ = new Service()
+            Service found = ServisList.Find(item => item.Title == Naz.Text);
+
+            try{
+                if (found == null && Convert.ToInt32(Time.Text) <= 240 && Convert.ToInt32(Time.Text) > 0)
+                {
+                    Service ObjectServ = new Service()
+                    {
+                        Title = Naz.Text,
+                        Cost = Convert.ToInt32(Price.Text),
+                        DurationInSeconds = Convert.ToInt32(Time.Text) * 60,
+                        Description = Opis.Text,
+                        Discount = Convert.ToDouble(Sale.Text) / 100,
+                        MainImagePath = IPath.Text
+                    };
+                    Classes.BD.EM.Service.Add(ObjectServ);
+                    Classes.BD.EM.SaveChanges();
+                    MessageBox.Show("Услуга добавлена");
+                    Global.MF.Navigate(new Pages.Admin());
+                }
+                else
+                {
+                    MessageBox.Show("Неверные данные!");
+                }
+            }
+            catch
             {
-                Title = Naz.Text,
-                Cost = Convert.ToInt32(Price.Text),
-                DurationInSeconds = Convert.ToInt32(Time.Text)*60,
-                Description = Opis.Text,
-                Discount = Convert.ToDouble(Sale.Text)/100,
-                MainImagePath = IPath.Text
-            };
-            Classes.BD.EM.Service.Add(ObjectServ);
-            Classes.BD.EM.SaveChanges();
-            MessageBox.Show("Услуга добавлена");
+                MessageBox.Show("Добавьте все поля!");
+            }
         }
         
         private void TextBlock_Initialized_4(object sender, EventArgs e)//время
@@ -248,14 +265,16 @@ namespace SchoolLanguages.Pages
 
         private void Home_Click(object sender, RoutedEventArgs e)//кнопка возврата
         {
-
             DGServises.Visibility = Visibility.Visible;
             Redact.Visibility = Visibility.Collapsed;
             BtnYsl.Visibility = Visibility.Visible;
             Global.MF.Navigate(new Pages.Admin());
         }
+        DateTime DT;
+        private void StartTime_TextChanged(object sender, TextChangedEventArgs e)//работа с датой и временем
+        {
 
-       
+        }
     }
 }
 
