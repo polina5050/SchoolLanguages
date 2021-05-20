@@ -25,15 +25,12 @@ namespace SchoolLanguages.Pages
     /// </summary>
     public partial class Admin : Page
     {
-        string path;
         List<Service> ServisList = Classes.BD.EM.Service.ToList();
         public Admin()
         {
             InitializeComponent();
             DGServises.ItemsSource = ServisList;
             
-           
-
         }
 
         int i = -1;
@@ -154,7 +151,7 @@ namespace SchoolLanguages.Pages
 
         private void SaveRed_Click(object sender, RoutedEventArgs e)//сохранение изменений
         {
-           Service R = ServisList[ind+1];
+           Service R = ServisList[ind];
             //List<Service> Ser = Classes.BD.EM.Service.Where(r => r.ID == ind).ToList();
             R.Title = RedNaz.Text;
             R.Cost = Convert.ToDecimal(RedPrice.Text);
