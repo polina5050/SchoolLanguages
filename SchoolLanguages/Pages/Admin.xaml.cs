@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Button = System.Windows.Controls.Button;
+using MessageBox = System.Windows.MessageBox;
 
 namespace SchoolLanguages.Pages
 {
@@ -21,13 +25,15 @@ namespace SchoolLanguages.Pages
     /// </summary>
     public partial class Admin : Page
     {
+        string path;
         List<Service> ServisList = Classes.BD.EM.Service.ToList();
         public Admin()
         {
             InitializeComponent();
             DGServises.ItemsSource = ServisList;
-            //TableR.ItemsSource = Classes.BD.EM.Service.ToList();
             
+           
+
         }
 
         int i = -1;
@@ -127,49 +133,38 @@ namespace SchoolLanguages.Pages
             }
 
         }
-
+        int ind;
         private void Button_Click(object sender, RoutedEventArgs e)//редактирование
         {
             Button BtnRed = (Button)sender;
-            int ind = Convert.ToInt32(BtnRed.Uid);
+            ind = Convert.ToInt32(BtnRed.Uid);
             Service RD = ServisList[ind];
-            NewID.Text = Convert.ToString((ind + 1));
+            RedID.Text = Convert.ToString((ind + 1));
             Service SZn = ServisList[ind];
-            NewNaz.Text = SZn.Title;
-            NewPrice.Text = Convert.ToString(SZn.Cost);
-            NewTime.Text = Convert.ToString(SZn.DurationInSeconds/60);
-            NewOpis.Text = Convert.ToString(SZn.Description);
-            NewSale.Text = Convert.ToString(SZn.Discount*100);
-            NewPath.Text = SZn.MainImagePath;
+            RedNaz.Text = SZn.Title;
+            RedPrice.Text = Convert.ToString(SZn.Cost);
+            RedTime.Text = Convert.ToString(SZn.DurationInSeconds/60);
+            RedOpis.Text = Convert.ToString(SZn.Description);
+            RedSale.Text = Convert.ToString(SZn.Discount*100);
+            RedPath.Text = SZn.MainImagePath;
             DGServises.Visibility = Visibility.Collapsed;
             Redact.Visibility = Visibility.Visible;
-            //BtnYsl.Visibility = Visibility.Collapsed;
+            BtnYsl.Visibility = Visibility.Collapsed;
         }
+
         private void SaveRed_Click(object sender, RoutedEventArgs e)//сохранение изменений
         {
-            Button BtnRed = (Button)sender;
-            if (BtnRed != null)
-            {
-                BtnRed.Uid = Convert.ToString(i);
-            }
-            int ind = Convert.ToInt32(BtnRed.Uid);
-            Service R = ServisList[ind];
-            List<Service> Ser = Classes.BD.EM.Service.Where(r => r.ID == ind).ToList();
-            for (int i = 1; i < Ser.Count; i++)
-            {
-                int znac = Convert.ToInt32(Ser[i].DurationInSeconds);
-                if (znac < 240)
-                {
-                    Classes.BD.EM.SaveChanges();
-                    MessageBox.Show("Изменено");
-                    Global.MF.Navigate(new Pages.Admin());
-                }
-                else
-                {
-                    MessageBox.Show("Недопустимое значение!");
-                }
-            }
-           
+           Service R = ServisList[ind+1];
+            //List<Service> Ser = Classes.BD.EM.Service.Where(r => r.ID == ind).ToList();
+            R.Title = RedNaz.Text;
+            R.Cost = Convert.ToDecimal(RedPrice.Text);
+            R.DurationInSeconds = Convert.ToInt32(RedTime.Text) *60;
+            R.Description = RedOpis.Text;
+            R.Discount = Convert.ToInt32(RedSale.Text);
+            R.MainImagePath = RedPath.Text;
+            Classes.BD.EM.Service.AddOrUpdate(R);
+            Classes.BD.EM.SaveChanges();
+            MessageBox.Show("Изменено");
         }
 
         private void Button_Initialized_1(object sender, EventArgs e)//удаление
@@ -208,9 +203,32 @@ namespace SchoolLanguages.Pages
             Button BtnNew = (Button)sender;
             int ind = Convert.ToInt32(BtnNew.Uid);
             Service S = ServisList[ind];
+            
 
         }
-
+        private void IBtn_Click(object sender, RoutedEventArgs e)//кнопка для поиска изображения
+        {
+            OpenFileDialog OFD = new OpenFileDialog();
+            OFD.ShowDialog();
+            string PathI = OFD.FileName;
+            IPath.Text = PathI;
+        }
+        private void SaveNew_Click(object sender, RoutedEventArgs e)
+        {
+            Service ObjectServ = new Service()
+            {
+                Title = Naz.Text,
+                Cost = Convert.ToInt32(Price.Text),
+                DurationInSeconds = Convert.ToInt32(Time.Text)*60,
+                Description = Opis.Text,
+                Discount = Convert.ToDouble(Sale.Text)/100,
+                MainImagePath = IPath.Text
+            };
+            Classes.BD.EM.Service.Add(ObjectServ);
+            Classes.BD.EM.SaveChanges();
+            MessageBox.Show("Услуга добавлена");
+        }
+        
         private void TextBlock_Initialized_4(object sender, EventArgs e)//время
         {
             if (i < ServisList.Count)
@@ -231,14 +249,16 @@ namespace SchoolLanguages.Pages
            
         }
 
-        private void Home_Click(object sender, RoutedEventArgs e)
+        private void Home_Click(object sender, RoutedEventArgs e)//кнопка возврата
         {
+
             DGServises.Visibility = Visibility.Visible;
             Redact.Visibility = Visibility.Collapsed;
-            
+            BtnYsl.Visibility = Visibility.Visible;
+            Global.MF.Navigate(new Pages.Admin());
         }
 
-        
+       
     }
 }
 

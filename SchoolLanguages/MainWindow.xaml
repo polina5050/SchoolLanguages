@@ -8,7 +8,7 @@
         Title="SchoolLanguages" Height="750" Width="1000" FontFamily="Comic Sans MS"
         Icon="/Resrs/school_logo1.ico">
     <Grid>
-        <Frame Name="frm">
+        <Frame Name="frm" NavigationUIVisibility="Hidden">
             
         </Frame>
     </Grid>

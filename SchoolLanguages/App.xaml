@@ -4,6 +4,12 @@
              xmlns:local="clr-namespace:SchoolLanguages"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <ControlTemplate TargetType="Button" x:Key="btnTample">
+            <Border CornerRadius="10"  BorderBrush="#04a0ff" BorderThickness="2"
+                    Background="{TemplateBinding Background}">
+                <ContentControl VerticalAlignment="Center" HorizontalAlignment="Center" Content="{TemplateBinding Content}"/>
+            </Border>
+        </ControlTemplate>
         <Style  TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
             <Setter Property="FontSize" Value="15"/>
