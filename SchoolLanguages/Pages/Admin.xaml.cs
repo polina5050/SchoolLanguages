@@ -5,6 +5,7 @@ using System.Data.Entity.Migrations;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,7 +26,7 @@ namespace SchoolLanguages.Pages
     /// </summary>
     public partial class Admin : Page
     {
-        string path;
+        
         List<Service> ServisList = Classes.BD.EM.Service.ToList();
         List<Client> ClientList = Classes.BD.EM.Client.ToList();
         public Admin()
@@ -35,13 +36,7 @@ namespace SchoolLanguages.Pages
             CBClients.ItemsSource = Classes.BD.EM.Client.ToList();
             CBClients.SelectedValuePath = "id";
             CBClients.DisplayMemberPath = "People";
-            BitmapImage BMI = new BitmapImage();
-            BMI.BeginInit();
-            path = @"/Resrs\school_logo.png";
-            BMI.UriSource = new Uri(path, UriKind.RelativeOrAbsolute);
-            BMI.EndInit();
-            Logo.Source = BMI;
-            //Logo.Stretch = Stretch.Uniform;
+           
         }
 
         int i = -1;
@@ -122,7 +117,7 @@ namespace SchoolLanguages.Pages
                 Service D = ServisList[i];
                 if (D.Discount != 0)
                 {
-                    Dis.Text = "*скидка" + D.Discount * 100 + "%";
+                    Dis.Text = "*скидка " + D.Discount * 100 + "%";
 
                 }
                 else
@@ -153,7 +148,7 @@ namespace SchoolLanguages.Pages
             RedPrice.Text = Convert.ToString(SZn.Cost);
             RedTime.Text = Convert.ToString(SZn.DurationInSeconds/60);
             RedOpis.Text = Convert.ToString(SZn.Description);
-            RedSale.Text = Convert.ToString(SZn.Discount*100);
+            RedSale.Text = Convert.ToString(SZn.Discount);
             RedPath.Text = SZn.MainImagePath;
             DGServises.Visibility = Visibility.Collapsed;
             Redact.Visibility = Visibility.Visible;
@@ -167,11 +162,12 @@ namespace SchoolLanguages.Pages
             R.Cost = Convert.ToDecimal(RedPrice.Text);
             R.DurationInSeconds = Convert.ToInt32(RedTime.Text)*60;
             R.Description = RedOpis.Text;
-            R.Discount = Convert.ToInt32(RedSale.Text);
+            R.Discount = Convert.ToDouble(RedSale.Text)/100;
             R.MainImagePath = RedPath.Text;
             Classes.BD.EM.Service.AddOrUpdate(R);
             Classes.BD.EM.SaveChanges();
             MessageBox.Show("Изменено");
+            Global.MF.Navigate(new Pages.Admin());
         }
 
         private void Button_Initialized_1(object sender, EventArgs e)//удаление
@@ -195,7 +191,7 @@ namespace SchoolLanguages.Pages
             Global.MF.Navigate(new Pages.Admin());
 
         }
-        
+        int IdServ;
         private void Button_Initialized_2(object sender, EventArgs e)//новый заказ
         {
             Button BtnNew = (Button)sender;
@@ -210,17 +206,21 @@ namespace SchoolLanguages.Pages
             Button BtnNew = (Button)sender;
             int index = Convert.ToInt32(BtnNew.Uid);
             Service S = ServisList[index];
+            IdServ = S.ID;////
+            Client C = ClientList[index];
             BtnYsl.Visibility = Visibility.Collapsed;
             DGServises.Visibility = Visibility.Collapsed;
             NewZap.Visibility = Visibility.Visible;
-            
+            NazZap.Text = S.Title;
         }
         private void IBtn_Click(object sender, RoutedEventArgs e)//кнопка для поиска изображения
         {
             OpenFileDialog OFD = new OpenFileDialog();
             OFD.ShowDialog();
             string PathI = OFD.FileName;
-            IPath.Text = PathI;
+            int ZnachPath = PathI.IndexOf("У");
+            string Stroka = PathI.Substring(ZnachPath);
+            IPath.Text = Stroka;
         }
         
         private void SaveNew_Click(object sender, RoutedEventArgs e)
@@ -265,16 +265,21 @@ namespace SchoolLanguages.Pages
 
             }
         }
-
+        
         private void BtnYsl_Click(object sender, RoutedEventArgs e)//новая запись
         {
             Button BtnEsl = (Button)sender;
             BtnEsl.Visibility = Visibility.Collapsed;
             DGServises.Visibility = Visibility.Collapsed;
             NewYsl.Visibility = Visibility.Visible;
-           
+            WriteZap.IsEnabled = false;
         }
-
+        private void Home2_Click(object sender, RoutedEventArgs e)
+        {
+            BtnYsl.Visibility = Visibility.Visible;
+            DGServises.Visibility = Visibility.Visible;
+            NewYsl.Visibility = Visibility.Collapsed;
+        }
         private void Home_Click(object sender, RoutedEventArgs e)//кнопка возврата
         {
             DGServises.Visibility = Visibility.Visible;
@@ -283,9 +288,60 @@ namespace SchoolLanguages.Pages
             Global.MF.Navigate(new Pages.Admin());
         }
         DateTime DT;
+        
         private void StartTime_TextChanged(object sender, TextChangedEventArgs e)//работа с датой и временем
         {
+            Regex r1 = new Regex("[0-1][0-9]:[0-5][0-9]");
+            Regex r2 = new Regex("2[0-3]:[0-5][0-9]");
+            string s = "";
+            if (r1.IsMatch(StartTime.Text) || r2.IsMatch(StartTime.Text) && StartTime.Text.Length == 5)
+            {
+                TimeSpan TS = TimeSpan.Parse(StartTime.Text);
+                DT = Convert.ToDateTime(DateZ.SelectedDate);
+                DT = DT.Add(TS);
+                if(DT> DateTime.Now)
+                {
+                    MessageBox.Show(DT + "");
+                    WriteZap.IsEnabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("Слишком поздно");
+                    WriteZap.IsEnabled = false;
+                }
+            }
+            else
+            {
+                if (StartTime.Text.Length >= 5)
+                {
+                    MessageBox.Show("Неверный формат времени!");
+                    WriteZap.IsEnabled = false;
+                }
+            }
+        }
 
+        private void WriteZap_Click(object sender, RoutedEventArgs e)
+        {
+            int IdClient = CBClients.SelectedIndex + 1;
+            ClientService ObjectSC = new ClientService()
+            {
+
+                ClientID = IdClient,
+                ServiceID = IdServ,
+                StartTime = DT,
+
+            };
+            Classes.BD.EM.ClientService.Add(ObjectSC);
+            Classes.BD.EM.SaveChanges();
+            MessageBox.Show("Запись добавлена");
+            Global.MF.Navigate(new Pages.Admin());
+        }
+
+        private void Home3_Click(object sender, RoutedEventArgs e)
+        {
+            NewZap.Visibility = Visibility.Collapsed;
+            DGServises.Visibility = Visibility.Visible;
+            BtnYsl.Visibility = Visibility.Visible;
         }
     }
 }

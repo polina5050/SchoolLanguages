@@ -20,12 +20,19 @@ namespace SchoolLanguages
     /// </summary>
     public partial class MainWindow : Window
     {
+        string path;
         public MainWindow()
         {
             InitializeComponent();
             Global.MF = frm;
             Classes.BD.EM = new KrainovaEntities();
             frm.Navigate(new Pages.Admin());
+            BitmapImage BMI = new BitmapImage();
+            BMI.BeginInit();
+            path = @"/Resrs\school_logo.png";
+            BMI.UriSource = new Uri(path, UriKind.RelativeOrAbsolute);
+            BMI.EndInit();
+            Logo.Source = BMI;
         }
     }
 }

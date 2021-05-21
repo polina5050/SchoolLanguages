@@ -5,16 +5,14 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SchoolLanguages.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="750" d:DesignWidth="1000"
+      d:DesignHeight="780" d:DesignWidth="1000"
       Title="Admin">
 
     <Grid>
         <ScrollViewer>
             <StackPanel>
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                    <StackPanel Margin="30,10,10,10" Height="60" Width="60" HorizontalAlignment="Left">
-                        <Image Name="Logo"></Image>
-                    </StackPanel>
+                  
                     <DataGrid Name="DGServises" AutoGenerateColumns="False" HorizontalAlignment="Center" IsReadOnly="False" CanUserAddRows="False">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn>
@@ -45,11 +43,11 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Button Template="{StaticResource btnTample}" VerticalAlignment="Top" Height="50" Name="BtnYsl" Content="Новая услуга "   Click="BtnYsl_Click"></Button>
+                    <Button Template="{StaticResource btnTample}" VerticalAlignment="Top" Height="50" Name="BtnYsl" Content="Новая услуга " Click="BtnYsl_Click"></Button>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
-        <StackPanel Name="Redact" Visibility="Collapsed">
+        <StackPanel Margin="0,60,0,0" Name="Redact" Visibility="Collapsed">
             <Button Template="{StaticResource btnTample}" Name="Home" Click="Home_Click" Content="назад"></Button>
             <TextBlock>ID</TextBlock>
             <TextBlock Name="RedID"></TextBlock>
@@ -67,7 +65,8 @@
             <TextBox Name="RedPath"></TextBox>
             <Button Template="{StaticResource btnTample}" Name="SaveRed" Click="SaveRed_Click" Content="Сохранить"></Button>
         </StackPanel>
-        <StackPanel Name="NewYsl" Visibility="Collapsed">
+        <StackPanel  Margin="0,60,0,0" Name="NewYsl" Visibility="Collapsed">
+            <Button Template="{StaticResource btnTample}" Name="Home2" Content="Назад" Click="Home2_Click"></Button>
             <TextBlock Name="ID"></TextBlock>
             <TextBlock>Введите название</TextBlock>
             <TextBox Name="Naz"></TextBox>
@@ -84,17 +83,19 @@
             <Button Template="{StaticResource btnTample}" Name="IBtn" Click="IBtn_Click" Content="Найти изображение"></Button>
             <Button Template="{StaticResource btnTample}" Name="SaveNew" Content="Сохранить" Click="SaveNew_Click"></Button>
         </StackPanel>
-        <StackPanel Name="NewZap" Visibility="Collapsed">
-            <TextBlock>Введите название</TextBlock>
+        <StackPanel Margin="0,60,0,0" HorizontalAlignment="Center" Name="NewZap" Visibility="Collapsed">
+            <Button Template="{StaticResource btnTample}" Name="Home3" Content="Назад" Click="Home3_Click"></Button>
+            <TextBlock>Название</TextBlock>
             <TextBox Name="NazZap"></TextBox>
             <TextBlock>Введите время в минутах</TextBlock>
             <TextBox Name="TimZap"></TextBox>
             <TextBlock>Выберите клиента</TextBlock>
-            <ComboBox Name="CBClients"></ComboBox>
+            <ComboBox  Width="350" Name="CBClients"></ComboBox>
             <TextBlock>Ведите дату</TextBlock>
-            <DatePicker Name="DateZ"></DatePicker>
+            <DatePicker Width="350" Name="DateZ"></DatePicker>
             <TextBlock>Ведите начало</TextBlock>
             <TextBox Name="StartTime" TextChanged="StartTime_TextChanged"></TextBox>
+            <Button Template="{StaticResource btnTample}" Name="WriteZap" Click="WriteZap_Click" Content="Записать"></Button>
         </StackPanel>
     </Grid>
 </Page>
