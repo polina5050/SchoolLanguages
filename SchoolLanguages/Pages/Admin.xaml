@@ -11,12 +11,10 @@
     <Grid>
         <ScrollViewer>
             <StackPanel>
-                <StackPanel Margin="30,10,10,10" Height="60" Width="60" HorizontalAlignment="Left">
-                    <StackPanel.Background>
-                        <ImageBrush Stretch="Uniform" ImageSource="/Resrs\school_logo.png"></ImageBrush>
-                    </StackPanel.Background>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <StackPanel Margin="30,10,10,10" Height="60" Width="60" HorizontalAlignment="Left">
+                        <Image Name="Logo"></Image>
+                    </StackPanel>
                     <DataGrid Name="DGServises" AutoGenerateColumns="False" HorizontalAlignment="Center" IsReadOnly="False" CanUserAddRows="False">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn>

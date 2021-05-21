@@ -15,6 +15,12 @@
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="Margin" Value="5,0"/>
         </Style>
+        <Style  TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="MaxWidth" Value="200"/>
+        </Style>
         <Style  TargetType="Button">
             <Setter Property="Background" Value="#ffffff"/>
             <Setter Property="BorderBrush" Value="#04a0ff"/>

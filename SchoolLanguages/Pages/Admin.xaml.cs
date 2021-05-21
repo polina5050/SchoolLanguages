@@ -25,12 +25,23 @@ namespace SchoolLanguages.Pages
     /// </summary>
     public partial class Admin : Page
     {
+        string path;
         List<Service> ServisList = Classes.BD.EM.Service.ToList();
+        List<Client> ClientList = Classes.BD.EM.Client.ToList();
         public Admin()
         {
             InitializeComponent();
             DGServises.ItemsSource = ServisList;
-            
+            CBClients.ItemsSource = Classes.BD.EM.Client.ToList();
+            CBClients.SelectedValuePath = "id";
+            CBClients.DisplayMemberPath = "People";
+            BitmapImage BMI = new BitmapImage();
+            BMI.BeginInit();
+            path = @"/Resrs\school_logo.png";
+            BMI.UriSource = new Uri(path, UriKind.RelativeOrAbsolute);
+            BMI.EndInit();
+            Logo.Source = BMI;
+            //Logo.Stretch = Stretch.Uniform;
         }
 
         int i = -1;
@@ -202,6 +213,7 @@ namespace SchoolLanguages.Pages
             BtnYsl.Visibility = Visibility.Collapsed;
             DGServises.Visibility = Visibility.Collapsed;
             NewZap.Visibility = Visibility.Visible;
+            
         }
         private void IBtn_Click(object sender, RoutedEventArgs e)//кнопка для поиска изображения
         {
