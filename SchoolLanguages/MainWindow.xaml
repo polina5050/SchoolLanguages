@@ -8,7 +8,7 @@
         Title="SchoolLanguages" Height="780" Width="1000" FontFamily="Comic Sans MS"
         Icon="/Resrs/school_logo1.ico">
     <Grid>
-        <StackPanel Margin="30,10,0,0"  Height="60" Width="60" VerticalAlignment="Top" HorizontalAlignment="Left">
+        <StackPanel Margin="70,10,0,0"  Height="80" Width="80" VerticalAlignment="Top" HorizontalAlignment="Left">
             <Image Name="Logo"></Image>
         </StackPanel>
         <Frame Name="frm" NavigationUIVisibility="Hidden">

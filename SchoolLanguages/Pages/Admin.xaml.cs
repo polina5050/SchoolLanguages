@@ -28,6 +28,7 @@ namespace SchoolLanguages.Pages
     {
         
         List<Service> ServisList1 = Classes.BD.EM.Service.ToList();
+        List<Service> ServisListRefresh = Classes.BD.EM.Service.ToList();
         List<Client> ClientList = Classes.BD.EM.Client.ToList();
         List<Service> ServisList = new List<Service>();
         public Admin()
@@ -155,6 +156,7 @@ namespace SchoolLanguages.Pages
             DGServises.Visibility = Visibility.Collapsed;
             Redact.Visibility = Visibility.Visible;
             BtnYsl.Visibility = Visibility.Collapsed;
+            SFS.Visibility = Visibility.Collapsed;
         }
 
         private void SaveRed_Click(object sender, RoutedEventArgs e)//сохранение изменений
@@ -213,6 +215,7 @@ namespace SchoolLanguages.Pages
             BtnYsl.Visibility = Visibility.Collapsed;
             DGServises.Visibility = Visibility.Collapsed;
             NewZap.Visibility = Visibility.Visible;
+            SFS.Visibility = Visibility.Collapsed;
             NazZap.Text = S.Title;
             TZap.Text = Convert.ToString(S.DurationInSeconds/60);
         }
@@ -275,6 +278,7 @@ namespace SchoolLanguages.Pages
             BtnEsl.Visibility = Visibility.Collapsed;
             DGServises.Visibility = Visibility.Collapsed;
             NewYsl.Visibility = Visibility.Visible;
+            SFS.Visibility = Visibility.Collapsed;
             WriteZap.IsEnabled = false;
         }
         private void Home2_Click(object sender, RoutedEventArgs e)
@@ -282,12 +286,14 @@ namespace SchoolLanguages.Pages
             BtnYsl.Visibility = Visibility.Visible;
             DGServises.Visibility = Visibility.Visible;
             NewYsl.Visibility = Visibility.Collapsed;
+            SFS.Visibility = Visibility.Visible;
         }
         private void Home_Click(object sender, RoutedEventArgs e)//кнопка возврата
         {
             DGServises.Visibility = Visibility.Visible;
             Redact.Visibility = Visibility.Collapsed;
             BtnYsl.Visibility = Visibility.Visible;
+            SFS.Visibility = Visibility.Visible;
             Global.MF.Navigate(new Pages.Admin());
         }
         DateTime DT;
@@ -345,12 +351,13 @@ namespace SchoolLanguages.Pages
             NewZap.Visibility = Visibility.Collapsed;
             DGServises.Visibility = Visibility.Visible;
             BtnYsl.Visibility = Visibility.Visible;
+            SFS.Visibility = Visibility.Visible;
         }
 
         private void SortUp_Click(object sender, RoutedEventArgs e)
         {
             i = -1;
-            ServisList.Sort((x, y) => x.Title.CompareTo(Convert.ToString((y.Cost))));
+            ServisList.Sort((x, y) => x.Cost.CompareTo(y.Cost));
             DGServises.Items.Refresh();
 
         }
@@ -358,11 +365,83 @@ namespace SchoolLanguages.Pages
         private void SortDown_Click(object sender, RoutedEventArgs e)
         {
             i = -1;
-            ServisList.Sort((x, y) => x.Title.CompareTo(y.Cost));
+            ServisList.Sort((x, y) => x.Cost.CompareTo(y.Cost));
             ServisList.Reverse();
             DGServises.Items.Refresh();
 
         }
+        List<Service> ServiseListFilter = new List<Service>();
+        private void Filter_SelectionChanged(object sender, SelectionChangedEventArgs e)//фильтрация по скидке
+        {
+            i = -1;
+
+            switch (Filter.SelectedIndex)
+            {
+                case 0:
+                    ServisList = ServisListRefresh;
+                    ServiseListFilter = ServisList.Where(x => x.Discount < 0.05).ToList();
+                    ServisList = ServiseListFilter;
+                    DGServises.ItemsSource = ServisList;
+                    break;
+                case 1:
+                    ServisList = ServisListRefresh;
+                    ServiseListFilter = ServisList.Where(x => x.Discount < 0.15 && x.Discount >= 0.05).ToList();
+                    ServisList = ServiseListFilter;
+                    DGServises.ItemsSource = ServisList;
+                    break;
+                case 2:
+                    ServisList = ServisListRefresh;
+                    ServiseListFilter = ServisList.Where(x => x.Discount < 0.30 && x.Discount >= 0.15).ToList();
+                    ServisList = ServiseListFilter;
+                    DGServises.ItemsSource = ServisList;
+                    break;
+                case 3:
+                    ServisList = ServisListRefresh;
+                    ServiseListFilter = ServisList.Where(x => x.Discount < 0.70 && x.Discount >= 0.30).ToList();
+                    ServisList = ServiseListFilter;
+                    DGServises.ItemsSource = ServisList;
+                    break;
+                case 4:
+                    ServisList = ServisListRefresh;
+                    ServiseListFilter = ServisList.Where(x => x.Discount < 0.100 && x.Discount >= 0.70).ToList();
+                    ServisList = ServiseListFilter;
+                    DGServises.ItemsSource = ServisList;
+                    break;
+                case 5:
+                    ServisList = ServisListRefresh;
+                    ServiseListFilter = ServisList.Where(x => x.Discount <= 100 && x.Discount >= 0).ToList();
+                    ServisList = ServiseListFilter;
+                    DGServises.ItemsSource = ServisList;
+                    break;
+            }
+        }
+
+        private void Poisk_TextChanged(object sender, TextChangedEventArgs e)//поиск по названию
+        {
+            i = -1;
+            if (Poisk.Text != "")
+            {
+                List<Service> ServiseListPoisk = new List<Service>();
+                ServiseListPoisk = ServisList.Where(x => x.Title.Contains(Poisk.Text)).ToList();
+                ServisList = ServiseListPoisk;
+                DGServises.ItemsSource = ServisList;
+            }
+            else
+            {
+                if (ServiseListFilter.Count == 0)
+                {
+                    ServisList = ServisList1;
+                    DGServises.ItemsSource = ServisList;
+                }
+                else
+                {
+                    ServisList = ServiseListFilter;
+                    DGServises.ItemsSource = ServisList;
+                }
+            }
+
+        }
     }
 }
+
 

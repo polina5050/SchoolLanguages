@@ -11,19 +11,31 @@
     <Grid>
         <ScrollViewer>
             <StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="Сортировка по возрастанию" Name="SortUp" Click="SortUp_Click"></Button>
-                    <Button Content="Сортировка по убыванию" Name="SortDown" Click="SortDown_Click"></Button>
+                <StackPanel Name="SFS" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Сортировка по возрастанию" Name="SortUp" Click="SortUp_Click"></Button>
+                        <Button Content="Сортировка по убыванию" Name="SortDown" Click="SortDown_Click"></Button>
+                    </StackPanel>
+                    <TextBlock Width="184">Сортировка по скидке:</TextBlock>
+                    <ComboBox Margin="0,5" Width="350" Name="Filter" SelectionChanged="Filter_SelectionChanged">
+                        <ComboBoxItem>0-5%</ComboBoxItem>
+                        <ComboBoxItem>5-15%</ComboBoxItem>
+                        <ComboBoxItem>15-30%</ComboBoxItem>
+                        <ComboBoxItem>30-70%</ComboBoxItem>
+                        <ComboBoxItem>70-100%</ComboBoxItem>
+                        <ComboBoxItem>Все</ComboBoxItem>
+                    </ComboBox>
+                    <TextBlock Width="164">Поиск по названию</TextBlock>
+                    <TextBox Name="Poisk" TextChanged="Poisk_TextChanged"></TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                  
-                    <DataGrid Name="DGServises" AutoGenerateColumns="False" HorizontalAlignment="Center" IsReadOnly="False" CanUserAddRows="False">
+                    <DataGrid Margin="0,30,0,0" Name="DGServises" AutoGenerateColumns="False" HorizontalAlignment="Center" IsReadOnly="False" CanUserAddRows="False">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal"  Initialized="StackPanel_Initialized">
-                                            <MediaElement Width="80" Height="80" Initialized="MediaElement_Initialized"/>
+                                            <MediaElement Width="85" Height="80" Initialized="MediaElement_Initialized"/>
                                             <StackPanel Name="Content" Orientation="Vertical">
                                                 <StackPanel>
                                                     <TextBlock Initialized="TextBlock_Initialized"/>
@@ -51,7 +63,7 @@
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
-        <StackPanel Margin="0,60,0,0" Name="Redact" Visibility="Collapsed" HorizontalAlignment="Center">
+        <StackPanel Margin="0,80,0,0" Name="Redact" Visibility="Collapsed" HorizontalAlignment="Center">
             <Button Template="{StaticResource btnTample}" Name="Home" Click="Home_Click" Content="назад"></Button>
             <TextBlock>ID</TextBlock>
             <TextBlock Name="RedID"></TextBlock>
@@ -69,7 +81,7 @@
             <TextBox Name="RedPath"></TextBox>
             <Button Template="{StaticResource btnTample}" Name="SaveRed" Click="SaveRed_Click" Content="Сохранить"></Button>
         </StackPanel>
-        <StackPanel  Margin="0,60,0,0" Name="NewYsl" Visibility="Collapsed" HorizontalAlignment="Center">
+        <StackPanel  Margin="0,80,0,0" Name="NewYsl" Visibility="Collapsed" HorizontalAlignment="Center">
             <Button Template="{StaticResource btnTample}" Name="Home2" Content="Назад" Click="Home2_Click"></Button>
             <TextBlock Name="ID"></TextBlock>
             <TextBlock>Введите название</TextBlock>
@@ -87,7 +99,7 @@
             <Button Template="{StaticResource btnTample}" Name="IBtn" Click="IBtn_Click" Content="Найти изображение"></Button>
             <Button Template="{StaticResource btnTample}" Name="SaveNew" Content="Сохранить" Click="SaveNew_Click"></Button>
         </StackPanel>
-        <StackPanel Margin="0,60,0,0" HorizontalAlignment="Center" Name="NewZap" Visibility="Collapsed">
+        <StackPanel Margin="0,80,0,0" HorizontalAlignment="Center" Name="NewZap" Visibility="Collapsed">
             <Button Template="{StaticResource btnTample}" Name="Home3" Content="Назад" Click="Home3_Click"></Button>
             <TextBlock>Название</TextBlock>
             <TextBox Name="NazZap"></TextBox>
