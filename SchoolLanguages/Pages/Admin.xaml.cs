@@ -27,11 +27,13 @@ namespace SchoolLanguages.Pages
     public partial class Admin : Page
     {
         
-        List<Service> ServisList = Classes.BD.EM.Service.ToList();
+        List<Service> ServisList1 = Classes.BD.EM.Service.ToList();
         List<Client> ClientList = Classes.BD.EM.Client.ToList();
+        List<Service> ServisList = new List<Service>();
         public Admin()
         {
             InitializeComponent();
+            ServisList = ServisList1;
             DGServises.ItemsSource = ServisList;
             CBClients.ItemsSource = Classes.BD.EM.Client.ToList();
             CBClients.SelectedValuePath = "id";
@@ -164,7 +166,7 @@ namespace SchoolLanguages.Pages
             R.Description = RedOpis.Text;
             R.Discount = Convert.ToDouble(RedSale.Text)/100;
             R.MainImagePath = RedPath.Text;
-            Classes.BD.EM.Service.AddOrUpdate(R);
+            Classes.BD.EM.Service.Add(R);
             Classes.BD.EM.SaveChanges();
             MessageBox.Show("Изменено");
             Global.MF.Navigate(new Pages.Admin());
@@ -206,12 +208,13 @@ namespace SchoolLanguages.Pages
             Button BtnNew = (Button)sender;
             int index = Convert.ToInt32(BtnNew.Uid);
             Service S = ServisList[index];
-            IdServ = S.ID;////
+            IdServ = S.ID;
             Client C = ClientList[index];
             BtnYsl.Visibility = Visibility.Collapsed;
             DGServises.Visibility = Visibility.Collapsed;
             NewZap.Visibility = Visibility.Visible;
             NazZap.Text = S.Title;
+            TZap.Text = Convert.ToString(S.DurationInSeconds/60);
         }
         private void IBtn_Click(object sender, RoutedEventArgs e)//кнопка для поиска изображения
         {
@@ -342,6 +345,23 @@ namespace SchoolLanguages.Pages
             NewZap.Visibility = Visibility.Collapsed;
             DGServises.Visibility = Visibility.Visible;
             BtnYsl.Visibility = Visibility.Visible;
+        }
+
+        private void SortUp_Click(object sender, RoutedEventArgs e)
+        {
+            i = -1;
+            ServisList.Sort((x, y) => x.Title.CompareTo(Convert.ToString((y.Cost))));
+            DGServises.Items.Refresh();
+
+        }
+
+        private void SortDown_Click(object sender, RoutedEventArgs e)
+        {
+            i = -1;
+            ServisList.Sort((x, y) => x.Title.CompareTo(y.Cost));
+            ServisList.Reverse();
+            DGServises.Items.Refresh();
+
         }
     }
 }

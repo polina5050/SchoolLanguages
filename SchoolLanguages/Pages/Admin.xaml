@@ -11,6 +11,10 @@
     <Grid>
         <ScrollViewer>
             <StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="Сортировка по возрастанию" Name="SortUp" Click="SortUp_Click"></Button>
+                    <Button Content="Сортировка по убыванию" Name="SortDown" Click="SortDown_Click"></Button>
+                </StackPanel>
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                   
                     <DataGrid Name="DGServises" AutoGenerateColumns="False" HorizontalAlignment="Center" IsReadOnly="False" CanUserAddRows="False">
@@ -47,7 +51,7 @@
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
-        <StackPanel Margin="0,60,0,0" Name="Redact" Visibility="Collapsed">
+        <StackPanel Margin="0,60,0,0" Name="Redact" Visibility="Collapsed" HorizontalAlignment="Center">
             <Button Template="{StaticResource btnTample}" Name="Home" Click="Home_Click" Content="назад"></Button>
             <TextBlock>ID</TextBlock>
             <TextBlock Name="RedID"></TextBlock>
@@ -65,7 +69,7 @@
             <TextBox Name="RedPath"></TextBox>
             <Button Template="{StaticResource btnTample}" Name="SaveRed" Click="SaveRed_Click" Content="Сохранить"></Button>
         </StackPanel>
-        <StackPanel  Margin="0,60,0,0" Name="NewYsl" Visibility="Collapsed">
+        <StackPanel  Margin="0,60,0,0" Name="NewYsl" Visibility="Collapsed" HorizontalAlignment="Center">
             <Button Template="{StaticResource btnTample}" Name="Home2" Content="Назад" Click="Home2_Click"></Button>
             <TextBlock Name="ID"></TextBlock>
             <TextBlock>Введите название</TextBlock>
@@ -87,6 +91,8 @@
             <Button Template="{StaticResource btnTample}" Name="Home3" Content="Назад" Click="Home3_Click"></Button>
             <TextBlock>Название</TextBlock>
             <TextBox Name="NazZap"></TextBox>
+            <TextBlock>Время</TextBlock>
+            <TextBox Name="TZap"></TextBox>
             <TextBlock>Введите время в минутах</TextBlock>
             <TextBox Name="TimZap"></TextBox>
             <TextBlock>Выберите клиента</TextBlock>
