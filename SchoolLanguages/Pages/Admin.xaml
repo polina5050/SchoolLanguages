@@ -17,7 +17,7 @@
                         <Button Content="Сортировка по убыванию" Name="SortDown" Click="SortDown_Click"></Button>
                     </StackPanel>
                     <TextBlock Width="184">Сортировка по скидке:</TextBlock>
-                    <ComboBox Margin="0,5" Width="350" Name="Filter" SelectionChanged="Filter_SelectionChanged">
+                    <ComboBox Margin="0,5"  Name="Filter" SelectionChanged="Filter_SelectionChanged">
                         <ComboBoxItem>0-5%</ComboBoxItem>
                         <ComboBoxItem>5-15%</ComboBoxItem>
                         <ComboBoxItem>15-30%</ComboBoxItem>
@@ -59,6 +59,12 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
+                    <StackPanel Visibility="Hidden" Name="ColZap" Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Height="26">Всего записей:</TextBlock>
+                        <TextBox Width="130" Name="All"></TextBox>
+                        <TextBlock Height="26">Отфильтровано записей:</TextBlock>
+                        <TextBox Width="130" Name="Vivod"></TextBox>
+                    </StackPanel>
                     <Button Template="{StaticResource btnTample}" VerticalAlignment="Top" Height="50" Name="BtnYsl" Content="Новая услуга " Click="BtnYsl_Click"></Button>
                 </StackPanel>
             </StackPanel>
@@ -108,9 +114,9 @@
             <TextBlock>Введите время в минутах</TextBlock>
             <TextBox Name="TimZap"></TextBox>
             <TextBlock>Выберите клиента</TextBlock>
-            <ComboBox  Width="350" Name="CBClients"></ComboBox>
+            <ComboBox   Name="CBClients"></ComboBox>
             <TextBlock>Ведите дату</TextBlock>
-            <DatePicker Width="350" Name="DateZ"></DatePicker>
+            <DatePicker  Name="DateZ"></DatePicker>
             <TextBlock>Ведите начало</TextBlock>
             <TextBox Name="StartTime" TextChanged="StartTime_TextChanged"></TextBox>
             <Button Template="{StaticResource btnTample}" Name="WriteZap" Click="WriteZap_Click" Content="Записать"></Button>

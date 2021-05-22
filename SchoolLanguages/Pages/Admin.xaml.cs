@@ -39,7 +39,7 @@ namespace SchoolLanguages.Pages
             CBClients.ItemsSource = Classes.BD.EM.Client.ToList();
             CBClients.SelectedValuePath = "id";
             CBClients.DisplayMemberPath = "People";
-           
+            
         }
 
         int i = -1;
@@ -359,7 +359,9 @@ namespace SchoolLanguages.Pages
             i = -1;
             ServisList.Sort((x, y) => x.Cost.CompareTo(y.Cost));
             DGServises.Items.Refresh();
-
+            ColZap.Visibility = Visibility.Visible;
+            All.Text = Convert.ToString(ServisList1.Count);
+            Vivod.Text = Convert.ToString(ServiseListFilter.Count);
         }
 
         private void SortDown_Click(object sender, RoutedEventArgs e)
@@ -368,6 +370,9 @@ namespace SchoolLanguages.Pages
             ServisList.Sort((x, y) => x.Cost.CompareTo(y.Cost));
             ServisList.Reverse();
             DGServises.Items.Refresh();
+            ColZap.Visibility = Visibility.Visible;
+            All.Text = Convert.ToString(ServisList1.Count);
+            Vivod.Text = Convert.ToString(ServiseListFilter.Count);
 
         }
         List<Service> ServiseListFilter = new List<Service>();
@@ -378,11 +383,23 @@ namespace SchoolLanguages.Pages
             switch (Filter.SelectedIndex)
             {
                 case 0:
-                    ServisList = ServisListRefresh;
-                    ServiseListFilter = ServisList.Where(x => x.Discount < 0.05).ToList();
-                    ServisList = ServiseListFilter;
-                    DGServises.ItemsSource = ServisList;
-                    break;
+                    if (Poisk.Text != " ")
+                    {
+                        ServisList = ServisListRefresh;
+                        ServiseListFilter = ServisList.Where(x => x.Discount < 0.05 && x.Title.Contains(Poisk.Text)).ToList();//фильтрация после поиска
+                        ServisList = ServiseListFilter;
+                        DGServises.ItemsSource = ServisList;
+                    }
+                    else
+                    {
+
+                        ServisList = ServisListRefresh;
+                        ServiseListFilter = ServisList.Where(x => x.Discount < 0.05).ToList();
+                        ServisList = ServiseListFilter;
+                        DGServises.ItemsSource = ServisList;
+                    }
+                        break;
+                    
                 case 1:
                     ServisList = ServisListRefresh;
                     ServiseListFilter = ServisList.Where(x => x.Discount < 0.15 && x.Discount >= 0.05).ToList();
@@ -414,6 +431,9 @@ namespace SchoolLanguages.Pages
                     DGServises.ItemsSource = ServisList;
                     break;
             }
+            ColZap.Visibility = Visibility.Visible;
+            All.Text = Convert.ToString(ServisList1.Count);
+            Vivod.Text = Convert.ToString(ServiseListFilter.Count);
         }
 
         private void Poisk_TextChanged(object sender, TextChangedEventArgs e)//поиск по названию
@@ -439,7 +459,9 @@ namespace SchoolLanguages.Pages
                     DGServises.ItemsSource = ServisList;
                 }
             }
-
+            ColZap.Visibility = Visibility.Visible;
+            All.Text = Convert.ToString(ServisList1.Count);
+            Vivod.Text = Convert.ToString(ServiseListFilter.Count);
         }
     }
 }
